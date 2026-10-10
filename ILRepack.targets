@@ -1,0 +1,22 @@
+<Project>
+  <UsingTask
+    TaskName="ILRepack"
+    AssemblyFile="$(NuGetPackageRoot)ilrepack.lib.msbuild.task/2.0.48/build/ILRepack.Lib.MSBuild.Task.dll" />
+
+  <Target Name="MergeHarmony" AfterTargets="ILRepack" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <EmbyProxyInputAssemblies Include="$(TargetPath)" />
+      <EmbyProxyInputAssemblies Include="$(OutputPath)0Harmony.dll" />
+    </ItemGroup>
+
+    <ILRepack
+      Parallel="true"
+      DebugInfo="true"
+      AllowDuplicateResources="false"
+      InputAssemblies="@(EmbyProxyInputAssemblies)"
+      TargetKind="SameAsPrimaryAssembly"
+      OutputFile="$(TargetPath)" />
+
+    <Delete Files="$(OutputPath)0Harmony.dll" />
+  </Target>
+</Project>
