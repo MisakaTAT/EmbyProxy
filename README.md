@@ -40,9 +40,13 @@ dotnet build -c Release
 将 DLL 直接放入该目录：
 
 ```bash
-wget -O /var/packages/EmbyServer/var/plugins/EmbyProxy.dll http://你的下载地址/EmbyProxy.dll
-chown emby:emby /var/packages/EmbyServer/var/plugins/EmbyProxy.dll
-chmod 644 /var/packages/EmbyServer/var/plugins/EmbyProxy.dll
+cd /var/packages/EmbyServer/var/plugins
+wget -O EmbyProxy.dll http://你的下载地址/EmbyProxy.dll
+sha256sum EmbyProxy.dll
+# v1.2.2: d7effedc8513a1b2da2b75dd1b7af2c9113ea2fe66b0277181bbdff6c6383f98
+chown emby:emby EmbyProxy.dll
+chmod 644 EmbyProxy.dll
+sudo synopkg restart EmbyServer
 ```
 
 群晖 Emby 套件的用户和组通常是 `emby`（小写）。如果提示 `invalid user` 或 `invalid group`，先用 `id emby` 查看实际的用户和组名，再替换成对应的名称。群晖套件可能因权限导致插件加载失败，复制 DLL 后请确认它与插件目录使用相同的属主和权限。不要放入 `/volume1/@appstore/EmbyServer/system/plugins/`，该目录属于系统自带插件位置。
