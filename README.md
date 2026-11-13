@@ -43,7 +43,6 @@ dotnet build -c Release
 cd /var/packages/EmbyServer/var/plugins
 wget -O EmbyProxy.dll http://你的下载地址/EmbyProxy.dll
 sha256sum EmbyProxy.dll
-# v1.2.2: d7effedc8513a1b2da2b75dd1b7af2c9113ea2fe66b0277181bbdff6c6383f98
 chown emby:emby EmbyProxy.dll
 chmod 644 EmbyProxy.dll
 sudo synopkg restart EmbyServer
