@@ -51,26 +51,6 @@ sudo synopkg restart EmbyServer
 
 群晖 Emby 套件的用户和组通常是 `emby`（小写）。如果提示 `invalid user` 或 `invalid group`，先用 `id emby` 查看实际的用户和组名，再替换成对应的名称。群晖套件可能因权限导致插件加载失败，复制 DLL 后请确认它与插件目录使用相同的属主和权限。不要放入 `/volume1/@appstore/EmbyServer/system/plugins/`，该目录属于系统自带插件位置。
 
-### 群晖 /tmp 以 noexec 挂载
-
-Harmony（MonoMod）默认把本地辅助库 `mm-exhelper.so` 写到 `/tmp` 并 `dlopen`。群晖等系统把 `/tmp` 以 `noexec` 挂载时，会看到：
-
-```text
-Unable to load shared library '/tmp/mm-exhelper.so.XXXXXX'
-/tmp/mm-exhelper.so.XXXXXX: failed to map segment from shared object
-```
-
-v1.2.2 起插件会在启动时依次尝试 Emby 的 `TempDirectory`、`PluginsPath`、`ProgramDataPath` 和插件 DLL 同级目录，把 MonoMod 的辅助库放到第一个位于可执行挂载点且可写的目录（通常是 `.../plugins/.harmony/`），并在插件页面显示实际使用的目录。
-
-如果仍然报同样的错误，可以临时把 `/tmp` 改成可执行并重启 Emby：
-
-```bash
-sudo mount -o remount,exec /tmp
-sudo synopkg restart EmbyServer
-```
-
-重启后 `/tmp` 会恢复 noexec，可在 DSM 的“任务计划 → 触发的任务 → 开机”里用 root 执行同样的 `mount` 命令。
-
 首次加载时插件会检查 `Emby.Server.Implementations.ApplicationHost` 是否仍有返回 `HttpMessageHandler` 的 `CreateHttpClientHandler` 方法。若找不到，插件会记录警告并保持代理关闭，不会阻止 Emby 启动。
 
 ## 限制
