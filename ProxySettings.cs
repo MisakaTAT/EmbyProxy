@@ -7,6 +7,7 @@ namespace EmbyProxy
     {
         private static readonly string[] BypassAddressList =
         {
+            "^https?://(localhost|127\\.|0\\.0\\.0\\.0|\\[::1\\])",
             "^https?://10\\.",
             "^https?://172\\.(1[6-9]|2[0-9]|3[0-1])\\.",
             "^https?://192\\.168\\."

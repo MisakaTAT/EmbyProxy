@@ -14,6 +14,7 @@
       DebugInfo="true"
       AllowDuplicateResources="false"
       InputAssemblies="@(EmbyProxyInputAssemblies)"
+      LibraryPath="$(OutputPath)"
       TargetKind="SameAsPrimaryAssembly"
       OutputFile="$(TargetPath)" />
 
